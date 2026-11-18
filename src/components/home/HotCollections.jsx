@@ -6,44 +6,18 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-function NextArrow(props) {
-  const { className, onClick } = props;
+function NextArrow({ onClick }) {
   return (
-    <button
-      className={className}
-      onClick={onClick}
-      style={{
-        display: "block",
-        background: "rgba(0, 0, 0, 0.6)",
-        border: "none",
-        color: "white",
-        fontSize: "24px",
-        fontWeight: "bold",
-        cursor: "pointer",
-      }}
-    >
-      →
+    <button className="owl-next" onClick={onClick}>
+      ›
     </button>
   );
 }
 
-function PrevArrow(props) {
-  const { className, onClick } = props;
+function PrevArrow({ onClick }) {
   return (
-    <button
-      className={className}
-      onClick={onClick}
-      style={{
-        display: "block",
-        background: "rgba(0, 0, 0, 0.6)",
-        border: "none",
-        color: "white",
-        fontSize: "24px",
-        fontWeight: "bold",
-        cursor: "pointer",
-      }}
-    >
-      ←
+    <button className="owl-prev" onClick={onClick}>
+      ‹
     </button>
   );
 }
