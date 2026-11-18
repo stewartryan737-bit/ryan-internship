@@ -16714,3 +16714,83 @@ img {
 .no-cursor {
   cursor: not-allowed;
 }
+
+/* ================================================== */
+
+/* Slick Carousel Custom Styles */
+
+/* ================================================== */
+
+.slick-slider {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.slick-list {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.slick-track {
+  position: relative;
+  left: 0;
+  top: 0;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.slick-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  color: #333;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.slick-arrow:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.slick-prev {
+  left: -70px;
+  z-index: 10;
+}
+
+.slick-next {
+  right: -70px;
+  z-index: 10;
+}
+
+.slick-prev::before {
+  content: '\f053';
+  font-family: 'FontAwesome';
+  font-size: 20px;
+  color: gray;
+}
+
+.slick-next::before {
+  content: '\f054';
+  font-family: 'FontAwesome';
+  font-size: 20px;
+  color: gray;
+}
+
+
