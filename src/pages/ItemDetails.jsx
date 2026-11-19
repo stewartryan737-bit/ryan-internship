@@ -9,8 +9,7 @@ const ItemDetails = () => {
   const { state } = useLocation();
   const collection = state && state.collection;
   const imageSrc = (collection && collection.nftImage) || nftImage;
-  const authorImageSrc =
-    (collection && collection.authorImage) || AuthorImage;
+  const authorImageSrc = (collection && collection.authorImage) || AuthorImage;
   const title = (collection && collection.title) || "Rainbow Style #194";
   const [loadedImage, setLoadedImage] = useState(null);
   const imageLoading = loadedImage !== imageSrc;
@@ -27,16 +26,10 @@ const ItemDetails = () => {
           <div className="container">
             <div className="row">
               <div className="col-md-6 text-center">
-                <div style={{ position: "relative" }}>
+                <div className="item-image-container">
                   {imageLoading && (
-                    <div
-                      style={{
-                        position: "absolute",
-                        inset: 0,
-                        zIndex: 1,
-                      }}
-                    >
-                      <Skeleton width="100%" height="100%" />
+                    <div className="item-image-skeleton">
+                      <Skeleton width="100%" height="400px" />
                     </div>
                   )}
                   <img

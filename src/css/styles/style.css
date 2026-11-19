@@ -16681,6 +16681,17 @@ img {
   animation: shimmer 2s infinite;
   content: "";
 }
+
+.item-image-container {
+  position: relative;
+}
+
+.item-image-skeleton {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
 @-webkit-keyframes shimmer {
   100% {
     transform: translateX(100%);
