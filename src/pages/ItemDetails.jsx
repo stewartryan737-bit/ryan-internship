@@ -1,22 +1,45 @@
 import React, { useEffect, useState } from "react";
 import EthImage from "../images/ethereum.svg";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import AuthorImage from "../images/author_thumbnail.jpg";
 import nftImage from "../images/nftImage.jpg";
 import Skeleton from "../components/UI/Skeleton";
+import axios from "axios";
 
 const ItemDetails = () => {
-  const { state } = useLocation();
-  const collection = state && state.collection;
+  const { nftId } = useParams();
+  const [collection, setCollection] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const ItemDetails = () => {
+    const { nftId } = useParams();
+    const [item, setItem] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+      async function fetchItem() {
+        setLoading(true);
+        const { data } = await axios.get(
+          `https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${nftId}`,
+        );
+        setItem(data);
+        setLoading(false);
+      }
+      fetchItem();
+    }, [nftId]);
+
+    if (loading) {
+      return <Skeleton width="100%" height="400px" />;
+    }
+  };
+
   const imageSrc = (collection && collection.nftImage) || nftImage;
   const authorImageSrc = (collection && collection.authorImage) || AuthorImage;
   const title = (collection && collection.title) || "Rainbow Style #194";
   const [loadedImage, setLoadedImage] = useState(null);
   const imageLoading = loadedImage !== imageSrc;
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   return (
     <div id="wrapper">
@@ -63,16 +86,22 @@ const ItemDetails = () => {
                   </p>
                   <div className="d-flex flex-row">
                     <div className="mr40">
-                      <h6>Owner</h6>
+                      <h6>{item.ownerName}</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to="/author">
-                            <img className="lazy" src={authorImageSrc} alt="" />
+                          <Link to={`/author/${item.ownerId}`}>
+                            <img
+                              className="lazy"
+                              src={item.ownerImage}
+                              alt=""
+                            />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to="/author">Monica Lucas</Link>
+                          <Link to={`/author/${item.ownerId}`}>
+                            {item.ownerName}
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -80,24 +109,30 @@ const ItemDetails = () => {
                   </div>
                   <div className="de_tab tab_simple">
                     <div className="de_tab_content">
-                      <h6>Creator</h6>
+                      <h6>{item.creatorName}</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to="/author">
-                            <img className="lazy" src={authorImageSrc} alt="" />
+                          <Link to={`/author/${item.creatorId}`}>
+                            <img
+                              className="lazy"
+                              src={item.creatorImage}
+                              alt=""
+                            />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to="/author">Monica Lucas</Link>
+                          <Link to={`/author/${item.creatorId}`}>
+                            {item.creatorName}
+                          </Link>
                         </div>
                       </div>
                     </div>
                     <div className="spacer-40"></div>
-                    <h6>Price</h6>
+                    <h6>{item.price}</h6>
                     <div className="nft-item-price">
                       <img src={EthImage} alt="" />
-                      <span>1.85</span>
+                      <span>{item.price}</span>
                     </div>
                   </div>
                 </div>

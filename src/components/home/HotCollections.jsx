@@ -71,65 +71,84 @@ const HotCollections = () => {
 
         <div className="row">
           {loading ? (
-           <div className="col-lg-12">
-            <Skeleton>
-            {Array(4)
-              .fill(0)
-              .map((_, index) => (
-                <div key={index} className="col-lg-3 col-sm-6 col-xs-12" style={{ padding: "0 10px" }}>
-                  <div className="nft_coll">
-                    <div className="nft_wrap">
-                      <div className="skeleton-box" style={{ height: "200px" }}></div>
+            <div className="col-lg-12">
+              <Skeleton>
+                {Array(4)
+                  .fill(0)
+                  .map((_, index) => (
+                    <div
+                      key={index}
+                      className="col-lg-3 col-sm-6 col-xs-12"
+                      style={{ padding: "0 10px" }}
+                    >
+                      <div className="nft_coll">
+                        <div className="nft_wrap">
+                          <div
+                            className="skeleton-box"
+                            style={{ height: "200px" }}
+                          ></div>
+                        </div>
+                        <div className="nft_coll_pp">
+                          <div
+                            className="skeleton-box"
+                            style={{
+                              height: "50px",
+                              width: "50px",
+                              borderRadius: "50%",
+                            }}
+                          ></div>
+                        </div>
+                        <div className="nft_coll_info">
+                          <div
+                            className="skeleton-box"
+                            style={{ height: "20px", width: "80%" }}
+                          ></div>
+                          <div
+                            className="skeleton-box"
+                            style={{ height: "20px", width: "40%" }}
+                          ></div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="nft_coll_pp">
-                      <div className="skeleton-box" style={{ height: "50px", width: "50px", borderRadius: "50%" }}></div>
-                    </div>
-                    <div className="nft_coll_info">
-                      <div className="skeleton-box" style={{ height: "20px", width: "80%" }}></div>
-                      <div className="skeleton-box" style={{ height: "20px", width: "40%" }}></div>
-                    </div>
-                  </div>
-                </div>
-              ))
-            }
-            </Skeleton>
-           </div>
+                  ))}
+              </Skeleton>
+            </div>
           ) : (
-          <div className="col-lg-12">
-            <Slider {...sliderSettings}>
-              {data.map((collection) => (
-                <div key={collection.id} style={{ padding: "0 10px" }}>
-                  <div className="nft_coll">
-                    <div className="nft_wrap">
-                      <Link to="/item-details" state={{ collection }}>
-                        <img
-                          src={collection.nftImage}
-                          className="lazy img-fluid"
-                          alt=""
-                        />
-                      </Link>
-                    </div>
-                    <div className="nft_coll_pp">
-                      <Link to="/author">
-                        <img
-                          className="lazy pp-coll"
-                          src={collection.authorImage}
-                          alt=""
-                        />
-                      </Link>
-                      <i className="fa fa-check"></i>
-                    </div>
-                    <div className="nft_coll_info">
-                      <Link to="/item-details" state={{ collection }}>
-                        <h4>{collection.title}</h4>
-                      </Link>
-                      <span>ERC-{collection.code}</span>
+            <div className="col-lg-12">
+              <Slider {...sliderSettings}>
+                {data.map((collection) => (
+                  <div key={collection.id} style={{ padding: "0 10px" }}>
+                    <div className="nft_coll">
+                      <div className="nft_wrap">
+                        <Link to={`/item-details/${collection.nftId}`}>
+                          <img
+                            src={collection.nftImage}
+                            className="lazy img-fluid"
+                            alt=""
+                          />
+                        </Link>
+                      </div>
+                      <div className="nft_coll_pp">
+                        <Link to={`/author/${collection.authorId}`}>
+                          <img
+                            className="lazy pp-coll"
+                            src={collection.authorImage}
+                            alt=""
+                          />
+                        </Link>
+                        <i className="fa fa-check"></i>
+                      </div>
+                      <div className="nft_coll_info">
+                        <Link to={`/item-details/${collection.nftId}`}>
+                          <h4>{collection.title}</h4>
+                        </Link>
+                        <span>ERC-{collection.code}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </Slider>
-          </div>
+                ))}
+              </Slider>
+            </div>
           )}
         </div>
       </div>
