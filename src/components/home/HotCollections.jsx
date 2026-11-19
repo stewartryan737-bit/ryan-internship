@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Skeleton from "../UI/Skeleton";
 
 function NextArrow({ onClick }) {
   return (
@@ -24,16 +25,21 @@ function PrevArrow({ onClick }) {
 
 const HotCollections = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetchData();
   }, []);
 
   async function fetchData() {
-    const { data } = await axios.get(
-      "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections",
-    );
-    setData(data);
-}
+    try {
+      const { data } = await axios.get(
+        "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections",
+      );
+      setData(data);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const sliderSettings = {
     dots: false,
@@ -62,14 +68,40 @@ const HotCollections = () => {
             </div>
           </div>
         </div>
+
         <div className="row">
+          {loading ? (
+           <div className="col-lg-12">
+            <Skeleton>
+            {Array(4)
+              .fill(0)
+              .map((_, index) => (
+                <div key={index} className="col-lg-3 col-sm-6 col-xs-12" style={{ padding: "0 10px" }}>
+                  <div className="nft_coll">
+                    <div className="nft_wrap">
+                      <div className="skeleton-box" style={{ height: "200px" }}></div>
+                    </div>
+                    <div className="nft_coll_pp">
+                      <div className="skeleton-box" style={{ height: "50px", width: "50px", borderRadius: "50%" }}></div>
+                    </div>
+                    <div className="nft_coll_info">
+                      <div className="skeleton-box" style={{ height: "20px", width: "80%" }}></div>
+                      <div className="skeleton-box" style={{ height: "20px", width: "40%" }}></div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+            </Skeleton>
+           </div>
+          ) : (
           <div className="col-lg-12">
             <Slider {...sliderSettings}>
               {data.map((collection) => (
                 <div key={collection.id} style={{ padding: "0 10px" }}>
                   <div className="nft_coll">
                     <div className="nft_wrap">
-                      <Link to="/item-details">
+                      <Link to="/item-details" state={{ collection }}>
                         <img
                           src={collection.nftImage}
                           className="lazy img-fluid"
@@ -88,7 +120,7 @@ const HotCollections = () => {
                       <i className="fa fa-check"></i>
                     </div>
                     <div className="nft_coll_info">
-                      <Link to="/explore">
+                      <Link to="/item-details" state={{ collection }}>
                         <h4>{collection.title}</h4>
                       </Link>
                       <span>ERC-{collection.code}</span>
@@ -98,6 +130,7 @@ const HotCollections = () => {
               ))}
             </Slider>
           </div>
+          )}
         </div>
       </div>
     </section>
