@@ -8,38 +8,25 @@ import axios from "axios";
 
 const ItemDetails = () => {
   const { nftId } = useParams();
-  const [collection, setCollection] = useState(null);
+ const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  const ItemDetails = () => {
-    const { nftId } = useParams();
-    const [item, setItem] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-      window.scrollTo(0, 0);
-      async function fetchItem() {
-        setLoading(true);
-        const { data } = await axios.get(
-          `https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${nftId}`,
-        );
-        setItem(data);
-        setLoading(false);
-      }
-      fetchItem();
-    }, [nftId]);
-
-    if (loading) {
-      return <Skeleton width="100%" height="400px" />;
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    async function fetchItem() {
+      setLoading(true);
+      const { data } = await axios.get(
+        `https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${nftId}`,
+      );
+      setItem(data);
+      setLoading(false);
     }
-  };
+    fetchItem();
+  }, [nftId]);
 
-  const imageSrc = (collection && collection.nftImage) || nftImage;
-  const authorImageSrc = (collection && collection.authorImage) || AuthorImage;
-  const title = (collection && collection.title) || "Rainbow Style #194";
-  const [loadedImage, setLoadedImage] = useState(null);
-  const imageLoading = loadedImage !== imageSrc;
+  if (loading) {
+    return <Skeleton width="100%" height="400px" />;
+  }
 
   return (
     <div id="wrapper">
@@ -50,24 +37,16 @@ const ItemDetails = () => {
             <div className="row">
               <div className="col-md-6 text-center">
                 <div className="item-image-container">
-                  {imageLoading && (
-                    <div className="item-image-skeleton">
-                      <Skeleton width="100%" height="400px" />
-                    </div>
-                  )}
                   <img
-                    src={imageSrc}
+                    src={item.nftImage}
                     className="img-fluid img-rounded mb-sm-30 nft-image"
                     alt=""
-                    onLoad={() => setLoadedImage(imageSrc)}
-                    onError={() => setLoadedImage(imageSrc)}
-                    style={{ visibility: imageLoading ? "hidden" : "visible" }}
                   />
                 </div>
               </div>
               <div className="col-md-6">
                 <div className="item_info">
-                  <h2>{title}</h2>
+                  <h2>{item.title}</h2>
 
                   <div className="item_info_counts">
                     <div className="item_info_views">
@@ -86,10 +65,10 @@ const ItemDetails = () => {
                   </p>
                   <div className="d-flex flex-row">
                     <div className="mr40">
-                      <h6>{item.ownerName}</h6>
+                      <h6>Owner</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to={`/author/${item.ownerId}`}>
+                          <Link to="/author">
                             <img
                               className="lazy"
                               src={item.ownerImage}
@@ -99,7 +78,7 @@ const ItemDetails = () => {
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to={`/author/${item.ownerId}`}>
+                          <Link to="/author">
                             {item.ownerName}
                           </Link>
                         </div>
@@ -109,10 +88,10 @@ const ItemDetails = () => {
                   </div>
                   <div className="de_tab tab_simple">
                     <div className="de_tab_content">
-                      <h6>{item.creatorName}</h6>
+                      <h6>Creator</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to={`/author/${item.creatorId}`}>
+                          <Link to="/author">
                             <img
                               className="lazy"
                               src={item.creatorImage}
@@ -122,14 +101,14 @@ const ItemDetails = () => {
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to={`/author/${item.creatorId}`}>
+                          <Link to="/author">
                             {item.creatorName}
                           </Link>
                         </div>
                       </div>
                     </div>
                     <div className="spacer-40"></div>
-                    <h6>{item.price}</h6>
+                    <h6>Price</h6>
                     <div className="nft-item-price">
                       <img src={EthImage} alt="" />
                       <span>{item.price}</span>
