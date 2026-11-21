@@ -8,7 +8,7 @@ import axios from "axios";
 
 const ItemDetails = () => {
   const { nftId } = useParams();
- const [item, setItem] = useState(null);
+  const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -78,9 +78,7 @@ const ItemDetails = () => {
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to="/author">
-                            {item.ownerName}
-                          </Link>
+                          <Link to="/author">{item.ownerName}</Link>
                         </div>
                       </div>
                     </div>
@@ -101,9 +99,7 @@ const ItemDetails = () => {
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to="/author">
-                            {item.creatorName}
-                          </Link>
+                          <Link to="/author">{item.creatorName}</Link>
                         </div>
                       </div>
                     </div>
