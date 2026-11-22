@@ -16663,17 +16663,19 @@ img {
   }
 }
 
-.nft_wrap {
+.nft_wrap,
+.nft__item {
   display: flex;
   flex-wrap: wrap;
 }
 
 .skeleton-box {
-  display: inline-block;
+  display: block;
+  width: 100%;
   height: 1em;
   position: relative;
   overflow: hidden;
-  background-color: #dddbdd;
+  background-color: #dddddd;
 }
 
 .skeleton-box::after {
