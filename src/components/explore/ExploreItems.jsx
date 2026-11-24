@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import NFTCard from "../UI/NFTCard";
 import axios from "axios";
+import CountdownTimer from "../UI/CountdownTimer";
 
 const ExploreItems = () => {
   const [data, setData] = useState([]);
@@ -49,7 +49,7 @@ const ExploreItems = () => {
                 <i className="fa fa-check"></i>
               </Link>
             </div>
-            <div className="de_countdown">5h 30m 32s</div>
+            <CountdownTimer expiryDate={collection.expiryDate} />
 
             <div className="nft__item_wrap">
               <div className="nft__item_extra">

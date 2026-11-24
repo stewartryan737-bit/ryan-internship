@@ -47,13 +47,13 @@ test("renders API fields and updates countdowns until expiry", async () => {
   expect(within(firstCard).getByText("5.07 ETH")).toBeTruthy();
   expect(firstCard.querySelector('img[src="/author.jpg"]')).toBeTruthy();
   expect(firstCard.querySelector('img[src="/nft.jpg"]')).toBeTruthy();
-  expect(within(firstCard).getByText("0h 0m 2s")).toBeTruthy();
+  expect(within(firstCard).getByText("00h 00m 02s")).toBeTruthy();
   expect(container.querySelectorAll(".de_countdown")).toHaveLength(1);
 
   act(() => {
     jest.advanceTimersByTime(3000);
   });
-  expect(within(firstCard).getByText("0h 0m 0s")).toBeTruthy();
+  expect(within(firstCard).getByText("00h 00m 00s")).toBeTruthy();
 
   unmount();
   jest.useRealTimers();
