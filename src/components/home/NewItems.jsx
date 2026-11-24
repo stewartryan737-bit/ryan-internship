@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import NFTCard from "../UI/NFTCard";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Skeleton from "../UI/Skeleton";
@@ -23,36 +23,13 @@ function PrevArrow({ onClick }) {
   );
 }
 
-function formatCountdown(expiryDate, now) {
-  const seconds = Math.max(0, Math.ceil((expiryDate - now) / 1000));
-  const days = Math.floor(seconds / 86400);
-  const hours = Math.floor((seconds % 86400) / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const remainingSeconds = seconds % 60;
-
-  const pad = (num) => String(num).padStart(2, "0");
-
-  return `${days ? `${days}d ` : ""}${pad(hours)}h ${pad(minutes)}m ${pad(remainingSeconds)}s`;
-}
-
 const NewItems = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [now, setNow] = useState(Date.now());
 
   useEffect(() => {
     fetchData();
   }, []);
-
-  useEffect(() => {
-    if (!data.some((item) => item.expiryDate != null)) {
-      return;
-    }
-
-    setNow(Date.now());
-    const interval = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(interval);
-  }, [data]);
 
   async function fetchData() {
     try {
@@ -91,7 +68,7 @@ const NewItems = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          
+
           <div className="row">
             {loading ? (
               <div className="col-lg-12">
@@ -141,64 +118,12 @@ const NewItems = () => {
               <div className="col-lg-12">
                 <Slider {...sliderSettings}>
                   {data.map((collection) => (
-                    <div key={collection.id} style={{ padding: "0 10px" }}>
-                      <div className="nft__item">
-                        <div className="author_list_pp">
-                          <Link to="/author">
-                            <img
-                              className="lazy"
-                              src={collection.authorImage}
-                              alt=""
-                            />
-                            <i className="fa fa-check"></i>
-                          </Link>
-                        </div>
-                        {collection.expiryDate != null && (
-                          <div className="de_countdown">
-                            {formatCountdown(collection.expiryDate, now)}
-                          </div>
-                        )}
-
-                        <div className="nft__item_wrap">
-                          <div className="nft__item_extra">
-                            <div className="nft__item_buttons">
-                              <button>Buy Now</button>
-                              <div className="nft__item_share">
-                                <h4>Share</h4>
-                                <a href="" target="_blank" rel="noreferrer">
-                                  <i className="fa fa-facebook fa-lg"></i>
-                                </a>
-                                <a href="" target="_blank" rel="noreferrer">
-                                  <i className="fa fa-twitter fa-lg"></i>
-                                </a>
-                                <a href="">
-                                  <i className="fa fa-envelope fa-lg"></i>
-                                </a>
-                              </div>
-                            </div>
-                          </div>
-
-                          <Link to="/item-details">
-                            <img
-                              src={collection.nftImage}
-                              className="lazy nft__item_preview"
-                              alt=""
-                            />
-                          </Link>
-                        </div>
-                        <div className="nft__item_info">
-                          <Link to="/item-details">
-                            <h4>{collection.title}</h4>
-                          </Link>
-                          <div className="nft__item_price">
-                            {collection.price} ETH
-                          </div>
-                          <div className="nft__item_like">
-                            <i className="fa fa-heart"></i>
-                            <span>{collection.likes}</span>
-                          </div>
-                        </div>
-                      </div>
+                    <div
+                      key={collection.id}
+                      className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
+                      style={{ display: "block", backgroundSize: "cover" }}
+                    >
+                      <NFTCard item={collection} />
                     </div>
                   ))}
                 </Slider>
