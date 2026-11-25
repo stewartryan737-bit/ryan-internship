@@ -8,16 +8,27 @@ const ExploreItems = () => {
   const [visibleCount, setVisibleCount] = useState(8);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("");
+
+  const filterEndpoints = {
+    "": "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore",
+    price_low_to_high:
+      "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore?filter=price_low_to_high",
+    price_high_to_low:
+      "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore?filter=price_high_to_low",
+    likes_high_to_low:
+      "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore?filter=likes_high_to_low",
+  };
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [filter]);
 
   async function fetchData() {
+    setLoading(true);
     try {
-      const { data } = await axios.get(
-        "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore",
-      );
+      const endpoint = filterEndpoints[filter];
+      const { data } = await axios.get(endpoint);
       setData(data);
     } catch (error) {
       console.error(error);
@@ -26,10 +37,14 @@ const ExploreItems = () => {
     }
   }
 
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
+  };
+
   return (
     <>
       <div>
-        <select id="filter-items" defaultValue="">
+        <select id="filter-items" value={filter} onChange={handleFilterChange}>
           <option value="">Default</option>
           <option value="price_low_to_high">Price, Low to High</option>
           <option value="price_high_to_low">Price, High to Low</option>
@@ -50,29 +65,34 @@ const ExploreItems = () => {
                       <div
                         className="skeleton-box"
                         style={{
-                          height: "400px",
-                          width: "100%",
+                          height: "50px",
+                          width: "50px",
+                          borderRadius: "50%",
                         }}
                       ></div>
                     </div>
                     <div
                       className="de_countdown skeleton-box"
-                      style={{ width: "100%", height: "400px" }}
+                      style={{
+                        position: "absolute",
+                        width: "110px",
+                        height: "30px",
+                      }}
                     ></div>
                     <div className="nft__item_wrap">
                       <div
                         className="skeleton-box"
-                        style={{ height: "400px", width: "100%" }}
+                        style={{ height: "250px", width: "100%" }}
                       ></div>
                     </div>
                     <div className="nft__item_info">
                       <div
                         className="skeleton-box"
-                        style={{ height: "400px", width: "100%" }}
+                        style={{ height: "20px", width: "60%" }}
                       ></div>
                       <div
                         className="skeleton-box"
-                        style={{ height: "400px", width: "100%" }}
+                        style={{ height: "20px", width: "40%" }}
                       ></div>
                     </div>
                   </div>

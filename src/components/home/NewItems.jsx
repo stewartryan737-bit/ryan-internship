@@ -92,12 +92,16 @@ const NewItems = () => {
                         </div>
                         <div
                           className="de_countdown skeleton-box"
-                          style={{ width: "75%" }}
+                          style={{
+                            position: "absolute",
+                            width: "110px",
+                            height: "30px",
+                          }}
                         ></div>
                         <div className="nft__item_wrap">
                           <div
                             className="skeleton-box"
-                            style={{ height: "250px" }}
+                            style={{ height: "250px", width: "100%" }}
                           ></div>
                         </div>
                         <div className="nft__item_info">
